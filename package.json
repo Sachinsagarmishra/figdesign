@@ -1,16 +1,22 @@
 {
   "name": "url-shortener",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.44.3",
+    "@clerk/nextjs": "^5.0.0",
+    "@supabase/supabase-js": "^2.39.3",
+    "js-cookie": "^3.0.5",
     "next": "14.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3"
   }
 }
