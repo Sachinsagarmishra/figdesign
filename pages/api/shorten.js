@@ -1,21 +1,42 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
-
+// pages/api/shorten.js
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-  const { url, custom } = req.body
-  if (!url) return res.status(400).json({ error: 'Missing URL' })
+  try {
+    // Handle body parse
+    let body = req.body;
+    if (typeof body === "string") {
+      body = JSON.parse(body);
+    }
 
-  const short = custom && custom.trim() !== '' ? custom.trim() : Math.random().toString(36).substring(2, 7)
+    const { url, customName } = body;
 
-  const { data, error } = await supabase.from('links').insert([{ url, short }])
+    if (!url) {
+      return res.status(400).json({ error: "URL is required" });
+    }
 
-  if (error) return res.status(500).json({ error: error.message })
+    // Generate short code
+    const code = customName ? customName : Math.random().toString(36).substring(2, 8);
 
-  res.status(200).json({ short })
+    // Store in cookies (basic version, no DB)
+    const existing = req.cookies?.history ? JSON.parse(req.cookies.history) : [];
+    const newEntry = { code, url };
+    const updated = [...existing, newEntry];
+
+    // Set cookie for history
+    res.setHeader(
+      "Set-Cookie",
+      `history=${JSON.stringify(updated)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=31536000`
+    );
+
+    // Return the new short link
+    return res.status(200).json({
+      shortUrl: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/${code}`,
+    });
+  } catch (err) {
+    console.error("Shorten API error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 }
