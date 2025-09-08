@@ -14,9 +14,8 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center space-y-12">
             {/* Hero Header */}
             <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
                 Short Links,
-                <br />
                 <span className="text-gray-600">Big Results</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -28,7 +27,7 @@ export default function Home() {
             {/* CTA Button */}
             <div className="space-y-4">
               <SignInButton mode="modal">
-                <button className="px-8 py-4 bg-black text-white text-lg font-semibold rounded-full hover:bg-gray-800 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                <button className="px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-colors">
                   Get Started Free
                 </button>
               </SignInButton>
@@ -99,7 +98,7 @@ export default function Home() {
                 Join thousands of users who trust Figma Short URL for their link management needs.
               </p>
               <SignInButton mode="modal">
-                <button className="px-8 py-4 bg-black text-white text-lg font-semibold rounded-full hover:bg-gray-800 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform">
+                <button className="px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-colors">
                   Start Shortening Now
                 </button>
               </SignInButton>
