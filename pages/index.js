@@ -109,14 +109,7 @@ export default function Home() {
         <SignedIn>
           {/* Signed In Content */}
           <div className="max-w-2xl mx-auto text-center space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
-                Welcome back! 👋
-              </h1>
-              <p className="text-xl text-gray-600">
-                Ready to create your next short link?
-              </p>
-            </div>
+           
             <ShortenerForm />
           </div>
         </SignedIn>
