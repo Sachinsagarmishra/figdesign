@@ -43,64 +43,65 @@ export default function ShortenerForm() {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="url"
-          placeholder="Enter long URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-          className="p-2 border rounded-lg"
-        />
-        <input
-          type="text"
-          placeholder="Custom name (optional)"
-          value={custom}
-          onChange={(e) => setCustom(e.target.value)}
-          className="p-2 border rounded-lg"
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-green-500 text-white rounded-lg"
-        >
-          Shorten
-        </button>
-      </form>
+    <div className="bg-dark text-white p-8 rounded-2xl shadow-2xl w-full max-w-lg">
+  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <input
+      type="url"
+      placeholder="Enter long URL"
+      value={url}
+      onChange={(e) => setUrl(e.target.value)}
+      required
+      className="p-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-primary"
+    />
+    <input
+      type="text"
+      placeholder="Custom name (optional)"
+      value={custom}
+      onChange={(e) => setCustom(e.target.value)}
+      className="p-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-secondary"
+    />
+    <button
+      type="submit"
+      className="px-4 py-3 bg-primary hover:bg-blue-700 text-white font-bold rounded-lg transition"
+    >
+      🚀 Shorten
+    </button>
+  </form>
 
-      {/* ✅ Notification */}
-      {copied && (
-        <div className="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded-lg shadow-lg">
-          Copied to clipboard!
-        </div>
-      )}
-
-      <div className="mt-6">
-        <h2 className="text-lg font-bold mb-2">History</h2>
-        <ul className="space-y-2">
-          {history.map((item, i) => (
-            <li
-              key={i}
-              className="flex justify-between items-center bg-gray-100 p-2 rounded"
-            >
-              <a
-                href={item.shortUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600"
-              >
-                {item.shortUrl}
-              </a>
-              <button
-                onClick={() => handleCopy(item.shortUrl)}
-                className="px-2 py-1 bg-blue-500 text-white rounded"
-              >
-                Copy
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+  {/* Notification */}
+  {copied && (
+    <div className="fixed bottom-4 right-4 bg-accent text-white px-4 py-2 rounded-lg shadow-lg animate-bounce">
+      ✅ Copied to clipboard!
     </div>
+  )}
+
+  <div className="mt-6">
+    <h2 className="text-xl font-bold mb-3 text-secondary">History</h2>
+    <ul className="space-y-3">
+      {history.map((item, i) => (
+        <li
+          key={i}
+          className="flex justify-between items-center bg-gray-800 p-3 rounded-lg shadow"
+        >
+          <a
+            href={item.shortUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary font-medium"
+          >
+            {item.shortUrl}
+          </a>
+          <button
+            onClick={() => handleCopy(item.shortUrl)}
+            className="px-3 py-1 bg-secondary hover:bg-green-700 text-white rounded-lg"
+          >
+            Copy
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
   )
 }
