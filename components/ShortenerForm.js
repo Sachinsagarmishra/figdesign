@@ -49,8 +49,8 @@ export default function ShortenerForm() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-2">Create Short URL</h1>
-        <p className="text-gray-600 mb-8 text-sm">Enter your long URL and choose a custom slug to create a short link</p>
+        <h1 className="text-2xl font-semibold text-gray-900 mb-2">Create Figma Short URL</h1>
+        <p className="text-gray-600 mb-8 text-sm">Transform your Figma long URLs into short, memorable links that are easy to share and track.</p>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div>
@@ -88,7 +88,7 @@ export default function ShortenerForm() {
           
           <button
             type="submit"
-            className="px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-colors"
+            className="px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-colors"
           >
             Create Short URL
           </button>
