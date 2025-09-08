@@ -1,12 +1,22 @@
-import { UserButton, SignInButton, useUser } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 
 export default function Navbar() {
-  const { isSignedIn } = useUser()
-
   return (
-    <nav className="flex justify-between p-4 bg-gray-100 shadow-md">
-      <h1 className="text-xl font-bold text-pink-600">Figma Link Shortener</h1>
-      <div>{isSignedIn ? <UserButton /> : <SignInButton />}</div>
+    <nav className="w-full bg-white shadow-md px-6 py-4 flex justify-between items-center">
+      <h1 className="text-2xl font-bold">URL Shortener</h1>
+      <div>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+              Sign In
+            </button>
+          </SignInButton>
+        </SignedOut>
+
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </div>
     </nav>
   )
 }
