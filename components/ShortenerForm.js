@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'lucide-react'
 
 export default function ShortenerForm() {
   const [url, setUrl] = useState('')
@@ -8,9 +7,13 @@ export default function ShortenerForm() {
   const [copied, setCopied] = useState(false) // ✅ for notification
   
   useEffect(() => {
-    // Using in-memory storage instead of cookies for Claude artifacts
-    const saved = localStorage.getItem('history')
-    if (saved) setHistory(JSON.parse(saved))
+    // Using localStorage for persistence
+    try {
+      const saved = localStorage.getItem('history')
+      if (saved) setHistory(JSON.parse(saved))
+    } catch (e) {
+      // Handle localStorage not available
+    }
   }, [])
   
   const saveHistory = (item) => {
@@ -25,7 +28,7 @@ export default function ShortenerForm() {
   
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // Simulating API call for demo
+    // Simulating API call
     const data = { short: custom || 'abc123' }
     if (data.short) {
       const shortUrl = `https://figshrink.vercel.app/${data.short}`
@@ -53,7 +56,7 @@ export default function ShortenerForm() {
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-3">Original URL</label>
             <div className="relative">
-              <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🔗</span>
               <input
                 type="url"
                 placeholder="https://example.com/very/long/url"
@@ -85,7 +88,7 @@ export default function ShortenerForm() {
           
           <button
             type="submit"
-            className="px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+            className="px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-colors"
           >
             Create Short URL
           </button>
