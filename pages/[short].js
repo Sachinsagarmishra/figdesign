@@ -1,22 +1,19 @@
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '../utils/supabaseClient'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+export async function getServerSideProps({ params }) {
+  const { short } = params
 
-export async function getServerSideProps(context) {
-  const { short } = context.params
-
+  // Database se original URL nikaalo
   const { data, error } = await supabase
     .from('urls')
     .select('long_url')
-    .eq('short', short)
+    .eq('short_code', short)
     .single()
 
   if (error || !data) {
     return {
-      notFound: true,
+      props: {},
+      notFound: true, // Next.js 404 page dikhega
     }
   }
 
@@ -28,6 +25,6 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function RedirectPage() {
+export default function ShortRedirect() {
   return <p>Redirecting...</p>
 }
