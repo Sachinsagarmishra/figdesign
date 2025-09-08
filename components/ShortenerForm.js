@@ -16,7 +16,11 @@ export default function ShortenerForm() {
   const saveHistory = (item) => {
     const newHistory = [item, ...history]
     setHistory(newHistory)
-    localStorage.setItem('history', JSON.stringify(newHistory))
+    try {
+      localStorage.setItem('history', JSON.stringify(newHistory))
+    } catch (e) {
+      // Handle localStorage not available
+    }
   }
   
   const handleSubmit = async (e) => {
