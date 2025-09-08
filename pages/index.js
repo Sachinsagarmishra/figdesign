@@ -108,7 +108,7 @@ export default function Home() {
 
         <SignedIn>
           {/* Signed In Content */}
-          <div className="max-w-2xl mx-auto text-center space-y-8">
+          <div className="max-w-2xl mx-auto text-left space-y-8">
            
             <ShortenerForm />
           </div>
