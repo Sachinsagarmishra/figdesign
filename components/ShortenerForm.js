@@ -2,77 +2,81 @@ import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
 export default function ShortenerForm() {
-  const [longUrl, setLongUrl] = useState('')
-  const [customSlug, setCustomSlug] = useState('')
+  const [url, setUrl] = useState('')
+  const [custom, setCustom] = useState('')
   const [history, setHistory] = useState([])
 
   useEffect(() => {
-    const saved = Cookies.get('shortHistory')
+    const saved = Cookies.get('history')
     if (saved) setHistory(JSON.parse(saved))
   }, [])
 
-  const handleShorten = () => {
-    if (!longUrl || !customSlug) return alert('Enter URL and custom slug')
-
-    const shortUrl = `https://figdesign.vercel.app/${customSlug}`
-    const newHistory = [...history, { longUrl, shortUrl }]
+  const saveHistory = (item) => {
+    const newHistory = [item, ...history]
     setHistory(newHistory)
-    Cookies.set('shortHistory', JSON.stringify(newHistory))
-    setLongUrl('')
-    setCustomSlug('')
+    Cookies.set('history', JSON.stringify(newHistory))
   }
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text)
-    alert('Copied: ' + text)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const res = await fetch('/api/shorten', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, custom })
+    })
+    const data = await res.json()
+    if (data.short) {
+      const shortUrl = `${window.location.origin}/${data.short}`
+      saveHistory({ url, shortUrl })
+      setUrl('')
+      setCustom('')
+    }
   }
 
   return (
-    <div className="w-full max-w-xl p-6 bg-white rounded-xl shadow-lg">
-      <h2 className="text-lg font-semibold mb-4">Paste your Figma link</h2>
-      <div className="flex flex-col gap-3">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
-          type="text"
-          placeholder="Enter long link"
-          value={longUrl}
-          onChange={(e) => setLongUrl(e.target.value)}
-          className="border p-2 rounded"
+          type="url"
+          placeholder="Enter long URL"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          required
+          className="p-2 border rounded-lg"
         />
         <input
           type="text"
-          placeholder="Custom slug (e.g. mydesign)"
-          value={customSlug}
-          onChange={(e) => setCustomSlug(e.target.value)}
-          className="border p-2 rounded"
+          placeholder="Custom name (optional)"
+          value={custom}
+          onChange={(e) => setCustom(e.target.value)}
+          className="p-2 border rounded-lg"
         />
         <button
-          onClick={handleShorten}
-          className="bg-purple-600 text-white p-2 rounded"
+          type="submit"
+          className="px-4 py-2 bg-green-500 text-white rounded-lg"
         >
-          Create Short Link
+          Shorten
         </button>
-      </div>
+      </form>
 
-      {history.length > 0 && (
-        <div className="mt-6">
-          <h3 className="font-bold mb-2">Your Links</h3>
-          <ul className="space-y-2">
-            {history.map((h, i) => (
-              <li key={i} className="flex justify-between items-center border p-2 rounded">
-                <a href={h.shortUrl} target="_blank" className="text-blue-600">
-                  {h.shortUrl}
-                </a>
-                <button
-                  onClick={() => copyToClipboard(h.shortUrl)}
-                  className="text-sm text-purple-600"
-                >
-                  Copy
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className="mt-6">
+        <h2 className="text-lg font-bold mb-2">History</h2>
+        <ul className="space-y-2">
+          {history.map((item, i) => (
+            <li key={i} className="flex justify-between items-center bg-gray-100 p-2 rounded">
+              <a href={item.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600">
+                {item.shortUrl}
+              </a>
+              <button
+                onClick={() => navigator.clipboard.writeText(item.shortUrl)}
+                className="px-2 py-1 bg-blue-500 text-white rounded"
+              >
+                Copy
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
