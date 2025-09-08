@@ -47,7 +47,7 @@ export default function ShortenerForm() {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full max-w-md">
         <h1 className="text-2xl font-semibold text-gray-900 mb-2">Create Figma Short URL</h1>
         <p className="text-gray-600 mb-8 text-sm">Transform your Figma long URLs into short, memorable links that are easy to share and track.</p>
