@@ -1,10 +1,17 @@
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}"
+    "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#2563eb",   // Blue
+        secondary: "#16a34a", // Green
+        accent: "#f97316",    // Orange
+        dark: "#1e293b",      // Dark Navy
+      },
+    },
   },
   plugins: [],
 }
